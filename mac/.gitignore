@@ -1,0 +1,14 @@
+# SwiftPM build cache
+.build/
+.swiftpm/
+Package.resolved
+
+# Hand-rolled .app output from Scripts/build-app.sh
+build/
+
+# Xcode artifacts (in case anyone opens Package.swift in Xcode)
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+
+.DS_Store

@@ -1,0 +1,13 @@
+.DS_Store
+.env
+coverage
+
+# Local Claude Code config (per-machine permissions / session state)
+.claude/
+
+# Internal planning docs — kept locally, not published
+CONTEXT.md
+TASKS.md
+CODEX.md
+prompts/
+Cli2MCP-notarized.zip
