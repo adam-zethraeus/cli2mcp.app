@@ -1,32 +1,36 @@
 # cli2mcp.app
 
-cli2mcp is a native Swift macOS app plus a bundled Swift stdio helper. It wraps
-ordinary command-line tools as Model Context Protocol servers by reading the
-wrapped tool's `--help`, inferring an input schema, and returning command output
-as MCP tool results.
+Turn any macOS command-line tool into a Model Context Protocol server — with no
+Node, no Python, and no `npx` bootstrap. cli2mcp is a native SwiftUI app that
+inspects a CLI's `--help`, infers an input schema, and hands you a ready-to-paste
+MCP snippet for Claude Desktop or any other MCP client. A bundled stdio helper
+does the actual wrapping at runtime, and ships inside the same `.app`.
 
-## What you get
+## Why cli2mcp
 
-- **Native app and helper.** The SwiftUI app lets you choose a preset, copy an
-  MCP snippet, and run a local health probe. The snippet points directly at the
-  bundled helper: `Cli2MCP.app/Contents/MacOS/cli2mcp-server`.
-- **No bootstrap fetch after checkout.** The checkout builds with the local
-  Swift toolchain. It does not need an external scripting runtime, package
-  manager, package runner, registry install, or internet download after
-  checkout build.
-- **Hardened argv.** Tool-call positionals are appended after a POSIX `--`
-  end-of-options marker, so user-provided strings cannot be reinterpreted as
-  flags by the wrapped CLI.
-- **Array-form process launch.** The helper launches children with
-  `Foundation.Process` executable and argument arrays, not shell command text.
-- **Environment controls.** `--env-passthrough safe` forwards only process
-  essentials such as `PATH`, `HOME`, `LANG`, and `TERM`; `all` and `none`
-  remain explicit modes, and `--inherit-shell-env` can capture a login-shell
-  environment when a preset needs it.
-- **Timeouts and concurrency.** Each call defaults to a 60 second timeout, and
-  `--max-concurrent N` caps in-flight tool calls.
+- **Pick, copy, paste.** Choose a preset (`jq`, `rg`, `pandoc`, `sed`, `curl`,
+  `ffmpeg`, `yt-dlp`, or your own), copy the generated JSON, and paste it into
+  your MCP client. The snippet points directly at the helper inside the bundle:
+  `Cli2MCP.app/Contents/MacOS/cli2mcp-server`.
+- **Verify before you trust.** A built-in health probe launches the same helper
+  your client will use, exchanges `initialize` and `tools/list`, and shows the
+  full stdio transcript — so you see exactly what an MCP client will see.
+- **Self-contained.** Pure Swift, single bundle. No package manager, no
+  registry, no scripting runtime, no post-checkout download. If you have the
+  Swift toolchain, you can build it offline.
+- **Safe by construction.**
+  - Tool-call positionals are appended after a POSIX `--` end-of-options
+    marker, so user-provided strings can never be reinterpreted as flags by
+    the wrapped CLI.
+  - Children launch via `Foundation.Process` with executable and argument
+    arrays — never shell command text.
+  - `--env-passthrough safe` forwards only essentials (`PATH`, `HOME`, `LANG`,
+    `TERM`); `all` and `none` remain explicit, and `--inherit-shell-env` can
+    opt into a login-shell environment when a preset needs it.
+  - Per-call timeout defaults to 60 seconds; `--max-concurrent N` caps
+    in-flight calls.
 
-## MCP snippet shape
+## What a snippet looks like
 
 Snippets copied from the app use an absolute command path for the helper:
 
@@ -44,7 +48,7 @@ Snippets copied from the app use an absolute command path for the helper:
 If you move the app, reopen it from the new location and copy the snippet again
 so the absolute helper path stays current.
 
-## Build
+## Build it yourself
 
 ```sh
 cd mac && make test
