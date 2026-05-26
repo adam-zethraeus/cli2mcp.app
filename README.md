@@ -6,6 +6,8 @@ inspects a CLI's `--help`, infers an input schema, and hands you a ready-to-past
 MCP snippet for Claude Desktop or any other MCP client. A bundled stdio helper
 does the actual wrapping at runtime, and ships inside the same `.app`.
 
+<img width="2204" height="1708" alt="screenshot2026-05-26_15 39 22@2x" src="https://github.com/user-attachments/assets/d96d667f-b883-4507-8e44-1f744d6be749" />
+
 ## Why cli2mcp
 
 - **Pick, copy, paste.** Choose a preset (`jq`, `rg`, `pandoc`, `sed`, `curl`,
@@ -29,6 +31,9 @@ does the actual wrapping at runtime, and ships inside the same `.app`.
     opt into a login-shell environment when a preset needs it.
   - Per-call timeout defaults to 60 seconds; `--max-concurrent N` caps
     in-flight calls.
+
+It's notarized to keep Apple happy.  
+Grab it from github releases. Put it in /Applications. Thats's it.
 
 ## What a snippet looks like
 
